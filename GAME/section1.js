@@ -449,7 +449,7 @@ player.onCollide("key", (k) => {
     destroy(k)
 
     // Destroy all walls with this tag
-    destroyAll("Wall")
+   destroy("wall")
 
     debug.log("Key collected! Wall destroyed.")
 })
