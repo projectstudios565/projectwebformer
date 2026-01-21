@@ -6,7 +6,7 @@ we use : https://kaplayjs.com for the main js language
 
 
 
-a small project by me and a few friends with the goal : just make a fun platformer game.
+a small open sourced project by me and a few friends with the goal : just make a fun platformer game.
 
 
 
