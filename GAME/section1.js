@@ -19,7 +19,6 @@ loadSprite("flip", "https://image2url.com/r2/default/images/1767392785338-9544f0
 loadSprite("wall", "https://image2url.com/r2/default/images/1767392617600-1d6e23ca-b6f4-486e-b565-087dcd61db6b.png")
 loadSprite("key", "https://image2url.com/r2/default/images/1767392639254-f6b006f0-eafc-4724-a4f3-c88a8dbb3f8b.png")
 
-loadBitmapFont("bitermap","https://image2url.com/r2/default/images/1768601093737-d751d431-a08c-438e-ad62-8639eb8b7ea5.png")
 
 function enemy(speed = 60, dir = 1) {
 	return {
@@ -324,22 +323,23 @@ scene("game", () => {
 const level = addLevel(MAPS[mapID],mapconfig)
 
 //level display and coin display and deaths counter
+//change text fonts later in time
 const levelcount = add([
-text("level 1",{font:"bitermap",height:48,width:1280}),
+text("level 1"),
 pos(10,10),
     color(0, 0, 0),
 
 ])
 
 const coins = add([
-text("coins: 0",{font:"bitermap",height:48,width:1280}),
+text("coins: 0",{font:"bitermap"),
 pos(10,45),
     color(0, 0, 0),
 
 ])
 
 const death = add([
-text("deaths: 0",{font:"bitermap",height:48,width:1280}),
+text("deaths: 0",{font:"bitermap"),
 pos(10,80),
     color(0, 0, 0),
 
