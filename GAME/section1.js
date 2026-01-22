@@ -19,6 +19,8 @@ loadSprite("flip", "https://image2url.com/r2/default/images/1767392785338-9544f0
 loadSprite("wall", "https://image2url.com/r2/default/images/1768961826409-c79a6f60-31d0-4084-9b69-c199ae9b13f6.png")
 loadSprite("key", "https://image2url.com/r2/default/images/1767392639254-f6b006f0-eafc-4724-a4f3-c88a8dbb3f8b.png")
 
+loadBitmapFont("happy", "https://image2url.com/r2/default/images/1769024704895-b60f3428-ba8b-408c-ae0c-7dc49ba24c07.png", 28, 37);
+
 
 function enemy(speed = 60, dir = 1) {
 	return {
@@ -43,7 +45,7 @@ function enemy(speed = 60, dir = 1) {
 setGravity(1000)
 const speed=300
 setBackground(184, 255, 248)
-let mapID = 4
+let mapID = 1
 let coinamnt = 0
 let attempts = 0
 const climbspeed = 150
@@ -326,21 +328,21 @@ const level = addLevel(MAPS[mapID],mapconfig)
 //level display and coin display and deaths counter
 //change text fonts later in time
 const levelcount = add([
-text("level 1"),
+text("level 1",{font:"happy"}),
 pos(10,10),
     color(0, 0, 0),
 
 ])
 
 const coins = add([
-text("coins: 0"),
+text("coins: 0",{font:"happy"}),
 pos(10,45),
     color(0, 0, 0),
 
 ])
 
 const death = add([
-text("deaths: 0"),
+text("deaths: 0",{font:"happy"}),
 pos(10,80),
     color(0, 0, 0),
 
@@ -445,15 +447,37 @@ player.angle=0
 const key = level.get("key")[0]
 const wall = get("wall")[40]
 
-player.onCollide("key", (k) => {
-    destroy(k)
 
-    // Destroy all walls with this tag
-   wall.destroy()
 
-    debug.log("Key collected! Wall destroyed.")
-})
-wait(0, () => debug.log("Walls at start:", get("Wall").length))
+
 
 })
-go("game")
+
+let titlepos = center()-1002
+
+scene("main menu",()=>{
+setBackground(3, 9, 168)
+add([
+sprite("title"),
+scale(0.6),
+anchor("center"),
+pos(center()),
+
+])
+
+add([
+text("press space start",{font:"happy"}),
+pos(500,600)
+
+
+])
+onKeyDown("space",()=>{
+go("game"),
+setBackground(184, 255, 248)
+
+})
+
+})
+loadSprite("title","https://image2url.com/r2/default/images/1769034760468-66770a9e-1e8d-4689-bc7b-615faf8fb72f.png")
+go("main menu")
+
