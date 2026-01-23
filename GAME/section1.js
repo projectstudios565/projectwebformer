@@ -4,7 +4,8 @@ kaplay({
   width:800,
 height:600,
 crisp:true,
-canvas: document.querySelector("#mycanvas"),
+letterbox:true,
+stretch:true
 
 });
 
@@ -52,7 +53,7 @@ function enemy(speed = 60, dir = 1) {
 
 setGravity(1000)
 const speed=300
-setBackground(184, 255, 248)
+
 let mapID = 1
 let coinamnt = 0
 let attempts = 0
@@ -69,22 +70,23 @@ keyCollected = "false"
 const MAPS = [
 [""],
 [
-"  ",
-"  ",
-"  ",
-"X  ^     $              =",
-"======   =  $           =",
-"            =  $    T   =",
-"               =        =",
-"#    $                  =",
-"========= $ ======================",
-"DDDDDDDDD   DDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDD^^^DDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDD===DDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+"                                X",
+"                               ===  ==",
+"                                        ^",
+"                                       ===",
+"                                    ^^",
+"                               ^^  ====",
+"                    T         ====     ",
+"                       ==== ",
+"#        ^   6  ^      DDDD^^^^^^^^^^^^^^^^^^^",
+"=======================DDDD===================",
+"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 ],
 ///level base below
 [
@@ -216,7 +218,7 @@ offscreen({hide:true}),
 	pos(10,20),
 	scale(1),
 	body(),
-offscreen({hide:true}),
+
     enemy(),
 "enemy",
 "solid"
@@ -315,6 +317,7 @@ offscreen({hide:true}),
 	pos(0,0),
 	scale(1),
 body({isStatic:true}),
+offscreen({hide:true}),
 	area()
         ],
 
@@ -322,6 +325,7 @@ body({isStatic:true}),
         sprite("key"),
         area(),
 	pos(0,0),
+offscreen({hide:true}),
 	scale(1),
 "key"
         ],
@@ -386,8 +390,19 @@ player.jump(580)
 }}})
 
 player.onUpdate(()=>{
-camPos(player.pos)
+setCamPos(lerp(camPos(), player.pos, 0.1))
+
+
+
+if(player.pos.y >= 3000){
+addKaboom(player.pos),
+go("game"),
+attempts+=1,
+mapID=1
+}
 })
+
+
 
 
 //spike/death conditions
@@ -415,6 +430,7 @@ attempts+=0.5
 const goal = level.get("goal")[0]
 onCollide("player","goal",()=>{
 mapID+=1
+localStorage.setItem("webformerlv", mapID);
 levelcount.text = "level: "+mapID
 go("game")
 })
@@ -463,7 +479,10 @@ player.angle=0
 const key = level.get("key")[0]
 const wall = get("wall")[40]
 
-
+onKeyPress("escape",()=>{
+localStorage.setItem("webformerlv", mapID);
+go("main menu")
+})
 
 
 
@@ -472,28 +491,90 @@ const wall = get("wall")[40]
 let titlepos = center()-1002
 
 scene("main menu",()=>{
+
+
+
 setBackground(3, 9, 168)
 add([
 sprite("title"),
-scale(0.6),
+scale(0.4),
 anchor("center"),
-pos(center()),
+pos(400,100),
+
+])
+
+const cursor = add([
+sprite("itme"),
+scale(0.4),
+anchor("center"),
+pos(300,255)
 
 ])
 
 add([
-text("press space start",{font:"happy"}),
-pos(200,400)
+text("new game",{font:"happy"}),
+pos(400,250),
+anchor("center"),
+scale(0.7),
 
 
 ])
-onKeyDown("space",()=>{
-go("game"),
+
+add([
+text("continue",{font:"happy"}),
+pos(400,300),
+anchor("center"),
+scale(0.7),
+
+
+])
+
+
+
+let selected = 0
+const optionsY = [255, 305]
+
+onKeyPress("down", () => {
+    selected++
+})
+
+onKeyPress("up", () => {
+    selected--
+})
+
+
+
+cursor.onUpdate(() => {
+    selected = clamp(selected, 0, optionsY.length - 1)
+    cursor.pos.y = optionsY[selected]
+})
+
+onKeyPress("space",()=>{
+if(selected===0){
+
+localStorage.setItem("webformerlv", "1");
 setBackground(184, 255, 248)
+go("game")
+}
+})
+onKeyPress("space",()=>{
+if(selected===1){
+mapID=localStorage.getItem("webformerlv");
+setBackground(184, 255, 248)
+go("game")
 
+}
 })
 
 })
+
+
+
+
+
+//ui asset loading
+
 loadSprite("title","https://image2url.com/r2/default/images/1769034760468-66770a9e-1e8d-4689-bc7b-615faf8fb72f.png")
+loadSprite("itme","https://image2url.com/r2/default/images/1769125886850-bf4bbde8-313d-4606-aba8-7968a7902f0f.png")
 go("main menu")
 
