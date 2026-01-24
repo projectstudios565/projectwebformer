@@ -553,7 +553,7 @@ onKeyPress("space",()=>{
 if(selected===0){
 localStorage.removeItem("webformerlv")
 localStorage.setItem("webformerlv", "1");
-
+mapID=1
 setBackground(184, 255, 248)
 go("game")
 }
