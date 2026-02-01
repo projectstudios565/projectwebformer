@@ -1,0 +1,11 @@
+level editor:
+
+almost finished, just working on level saving
+
+main game: 
+no work has been done, or enough to be noticed
+
+notes:
+after save system finished, main game work will continue.
+once level editor finished, we will begin work
+on a world map and expanding the levels
