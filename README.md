@@ -49,3 +49,9 @@ mac
 Linux
 
 mobile(soon)
+
+
+###### where and when will the web version be released?
+
+it will be released on the G.A games website, when its done,
+the first official beta will probably be released with the website.
