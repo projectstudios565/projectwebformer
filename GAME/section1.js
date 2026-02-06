@@ -252,7 +252,7 @@ offscreen({hide:true}),
 body({isStatic:true}),
 "meany",
 "solid"
-
+],
 
         "P": () => [
         sprite("jump"),
