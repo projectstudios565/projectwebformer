@@ -134,14 +134,14 @@ const MAPS = [
 
 ["                                             ", 
 "                                             ",
-"                                             ",
-"                                             ",
-"                                             ",
-"                                             ",
-"                                             ",
-"                                             ",
-"#                                            ",
-"=============================================",
+"      DDDDDDDDDDDDDDDD           DDDDDDDDD     ",
+"                    G                    X    ",
+"                         ^  6 ^ L            ",
+"                       ==========                      ",
+"                    DD DDDDDDDDDD            ",
+"                       DDDDDDDDDD     X      ",
+"#     L                DDDDDDDDDD            ",
+"=======================DDDDDDDDDD!!!!!!!!!!!!",
 "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
@@ -390,6 +390,8 @@ scale(0.6)
 
 ])
 
+
+
 const coins = add([
 text("coins: 0",{font:"happy"}),
 pos(10,35),
@@ -398,13 +400,6 @@ pos(10,35),
 
 ])
 
-const death = add([
-text("deaths: 0",{font:"happy"}),
-pos(10,70),
-    color(0, 0, 0),
- fixed(),
-
-])
 
 //player
 const player = level.get("player")[0]
@@ -433,7 +428,7 @@ player.jump(580)
 }}})
 
 player.onUpdate(()=>{
-setCamPos(lerp(camPos(), player.pos, 0.1))
+setCamPos(lerp(getCamPos(), player.pos, 0.1))
 
 
 
@@ -451,19 +446,19 @@ mapID=1
 //spike/death conditions
 const spike = level.get("spike")[0]
 onCollide("player","spike",()=>{
-go("game"),
+player.pos=vec2(10,512)
 addKaboom(player.pos),
 attempts+=1
 })
 
 onKeyPress("r",()=>{
-go("game"),
+player.pos=vec2(10,512)
 addKaboom(player.pos),
 attempts+=1
 })
 
 onGamepadButtonPress("north",()=>{
-go("game"),
+player.pos=vec2(10,512)
 addKaboom(player.pos),
 attempts+=0.5
 })
@@ -476,9 +471,9 @@ player.destroy()
 goal.destroy()
 mapID+=1
 localStorage.setItem("webformerlv", mapID);
-go("game")
+go("loading")
 })})
-levelcount.text = "level: "+mapID
+
 
 //coin
 const coin = level.get("coin")[0]
@@ -490,7 +485,7 @@ coins.text = "coins: "+coinamnt
 })
 
 coins.text = "coins: "+coinamnt
-death.text = "deaths: "+attempts
+
 
 
 //enemy movement logic
@@ -499,7 +494,7 @@ const enemy = level.get("enemy")[0]
 
 
 onCollide("player","enemy",()=>{
-go("game"),
+player.pos=vec2(10,512)
 addKaboom(player.pos),
 
 attempts+=1
@@ -541,12 +536,13 @@ go("scary")
 
 //level names
 if(mapID===1){
-levelcount.text="level 1-1 hey thats the roof"
+    levelcount.text="level: 1-1 hey thats the roof"
+} else if(mapID===2){
+    levelcount.text="level: 1-2 very scary level"
+} else if(mapID===3){
+    levelcount.text="level: 1-3 look at me, im on the roof"
 }
-
-if(mapID===2){
-levelcount.text="level 1-2 scary spikes and trees"
-}
+// etc...
 
 })
 
@@ -630,7 +626,7 @@ go("game")
 })
 onKeyPress("space",()=>{
 if(selected===1){
-mapID=localStorage.getItem("webformerlv");
+mapID=Number(localStorage.getItem("webformerlv"));
 go("game")
 
 }
@@ -638,7 +634,7 @@ go("game")
 
 onKeyPress("space",()=>{
 if(selected===2){
-mapID=localStorage.getItem("webformercon");
+mapID=toNumber(localStorage.getItem("webformercon"));
 setBackground(184, 255, 248)
 go("game")
 
@@ -664,7 +660,16 @@ text("boo!")
 ])
 loadSound("boo!","https://image2url.com/r2/default/files/1770411402922-fbb20c36-388e-48b1-ab36-50aaff5ea908.mp3")
 play("boo!")
+
+onKeyPress("space",()=>{
+go("main menu")
+})
 })
 
+scene("loading",()=>{
+
+go("game")
+
+})
 
 go("main menu")
