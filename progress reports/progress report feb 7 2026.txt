@@ -1,0 +1,14 @@
+level editor:
+
+no work has been done, or enough to be noticed
+
+main game: 
+worked on levels and added new tiles!
+scary tree
+scary spikes
+
+notes:
+level editor has been put to a side project,
+this is to speed up development on the main game!
+the level editor is still going to be worked on, but
+it will not be canceled (yet...)
