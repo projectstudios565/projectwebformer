@@ -132,9 +132,9 @@ const MAPS = [
 "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 ],
 
-["                                             ", 
-"                                             ",
-"      DDDDDDDDDDDDDDDD           DDDDDDDDD     ",
+["                    DDDDDDDDDDDDD                        ", 
+"                     D G         D",
+"      DDDDDDDDDDDDDDDD          DDDDDDDDDDD     ",
 "                    G                    X    ",
 "                         ^  6 ^ L            ",
 "                       ==========                      ",
@@ -151,51 +151,26 @@ const MAPS = [
 "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 ],
 
-[
-"                           ",
-"                G          ",
-"                           ",
-"        =======      ===  =",
-"                      X   =",
-"            =             =",
-"            D             =",          
-"  T         D             =",
-"#           D             =",
-"=      L    D         L   =",
-"============D=====   ======",
-"DDDDDDDDDDDDDDDDDD   DDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDD   DDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDD   X    DDDDDDDD",
-"DDDDDDDDDDDDDDDDDD^^^^^^^^DDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-
-
+["                             ^^^^^^^^^^^^         ", 
+"                DDDDDDD                       ",
+"                                             ",
+"                                             ",
+"                                          !   ",
+"                L                   !   ===   ",
+"          !  ! ===               ====        ",
+"     !  ! ====                               ",
+"#    ====                                    ",
+"===                         G",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
 ],
 
-[
-"                           ",
-"                G          ",
-"                           ",
-"        =======      ===  =",
-"                      X   =",
-"            =             =",
-"            D             =",          
-"  T         D             =",
-"#           D             =",
-"=      K    0         L   =",
-"===========================",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDD",
 
-
-],
 
 ]
 
@@ -434,9 +409,8 @@ setCamPos(lerp(getCamPos(), player.pos, 0.1))
 
 if(player.pos.y >= 3000){
 addKaboom(player.pos),
-go("game"),
-attempts+=1,
-mapID=1
+player.pos=vec2(10,512),
+attempts+=1
 }
 })
 
@@ -541,6 +515,9 @@ if(mapID===1){
     levelcount.text="level: 1-2 very scary level"
 } else if(mapID===3){
     levelcount.text="level: 1-3 look at me, im on the roof"
+}
+} else if(mapID===4){
+    levelcount.text="level: 1-4 welcome to hell..."
 }
 // etc...
 
