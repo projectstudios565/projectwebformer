@@ -151,7 +151,7 @@ const MAPS = [
 "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 ],
 
-["                             ^^^^^^^^^^^^         ", 
+["                         G   ^^^^^^^^^^^^         ", 
 "                DDDDDDD                       ",
 "                                             ",
 "                                             ",
@@ -160,7 +160,7 @@ const MAPS = [
 "          !  ! ===               ====        ",
 "     !  ! ====                               ",
 "#    ====                                    ",
-"===                         G",
+"===                         L",
 "",
 "",
 "",
