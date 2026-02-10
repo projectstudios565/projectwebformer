@@ -1,4 +1,4 @@
-we use : https://kaplayjs.com for the main js language
+go to : https://https://github.com/GA-Gamesdev/projectwebformer/releases for releases of webformer
 
 
 
