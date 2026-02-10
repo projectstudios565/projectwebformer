@@ -13,6 +13,9 @@ canvas:{
 
 }
 
+let w1 = localStorage.getItem("w1")
+let exitfrom = 0
+
 loadSprite("player", "https://image2url.com/r2/default/images/1767393290724-f4cd0b10-37ed-49fc-b7a1-c28fc273a3c1.png")
 loadSprite("ground","https://image2url.com/r2/default/images/1767393265499-2c1de6bd-257b-4b0e-b211-44365e8585da.png")
 loadSprite("spike", "https://image2url.com/r2/default/images/1767393236351-b79257ed-5d6c-4177-9e43-c52f999a00f5.png")
@@ -151,11 +154,11 @@ const MAPS = [
 "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 ],
 
-["                         G   ^^^^^^^^^^^^         ", 
+["                         G           ^^^         ", 
 "                DDDDDDD                       ",
 "                                             ",
 "                                             ",
-"                                          !   ",
+"                                G        E!   ",
 "                L                   !   ===   ",
 "          !  ! ===               ====        ",
 "     !  ! ====                               ",
@@ -347,6 +350,16 @@ offscreen({hide:true}),
         ],
 
 
+        "E": () => [
+        sprite("exit"),
+        area(),
+	pos(0,0),
+offscreen({hide:true}),
+	scale(1),
+"exit"
+        ],
+
+
 
 }
 }
@@ -429,6 +442,8 @@ onKeyPress("r",()=>{
 player.pos=vec2(10,512)
 addKaboom(player.pos),
 attempts+=1
+player.gravityScale= 1
+player.angle=0
 })
 
 onGamepadButtonPress("north",()=>{
@@ -446,6 +461,14 @@ goal.destroy()
 mapID+=1
 localStorage.setItem("webformerlv", mapID);
 go("loading")
+})})
+
+onCollide("player","exit",()=>{
+onKeyPress("space",()=>{
+player.destroy()
+
+localStorage.setItem("w1", "1");
+go("hubworld")
 })})
 
 
@@ -494,8 +517,15 @@ const key = level.get("key")[0]
 const wall = get("wall")[40]
 
 onKeyPress("escape",()=>{
+if(w1!="1"){
 localStorage.setItem("webformerlv", mapID);
-go("main menu")
+go("main menu")}
+if(w1==="1"){
+localStorage.setItem("webformerlv", mapID);
+go("hubworld")
+exitfrom="1"
+
+}
 })
 
 const terr = get("evil tree")[0]
@@ -517,6 +547,8 @@ if(mapID===1){
     levelcount.text="level: 1-3 look at me, im on the roof"
 } else if(mapID===4){
     levelcount.text="level: 1-4 hell"
+} else if(mapID===0){
+    levelcount.text="level: null"
 }
 
 // etc...
@@ -597,6 +629,7 @@ onKeyPress("space",()=>{
 if(selected===0){
 localStorage.removeItem("webformerlv")
 localStorage.setItem("webformerlv", "1");
+localStorage.setItem("w1", "0");
 mapID=1
 go("game")
 }
@@ -604,17 +637,25 @@ go("game")
 onKeyPress("space",()=>{
 if(selected===1){
 mapID=Number(localStorage.getItem("webformerlv"));
+if(w1=== "1"){
+go("hubworld")
+}if(w1!="1"){
 go("game")
+}
 
 }
 })
 
 onKeyPress("space",()=>{
 if(selected===2){
+
 mapID=toNumber(localStorage.getItem("webformercon"));
 setBackground(184, 255, 248)
+if(w1=== "1"){
+go("hubworld")
+}if(w1!="1"){
 go("game")
-
+}
 }
 })
 
@@ -646,6 +687,177 @@ go("main menu")
 scene("loading",()=>{
 
 go("game")
+
+})
+
+scene("hubworld",()=>{
+
+loadSprite("floor","https://image2url.com/r2/default/images/1770675204930-556f0493-24df-4565-9316-45db2ee50059.png")
+
+
+const wrldmap = [
+["                                             ", 
+"                                             ",
+"                                             ",
+"                                             ",
+"                                             ",
+" ==============================================",
+" =                                            = ",
+" =                                            =",
+" =#      1                                    =  ",
+" ==============================================",
+
+],
+
+
+]
+
+const mapconfig = {
+tileWidth: 64,
+tileHeight: 64,
+
+pos:(0,0),
+
+    tiles:{
+        "=": () => [
+            sprite("floor"),
+            area(),
+	scale(1),
+	body({isStatic:true}),
+offscreen({hide:true}),
+"solid"
+        ],
+
+        "#": () => [
+        sprite("player"),
+        area(),
+	pos(10,20),
+	scale(1),
+	body(),
+offscreen({hide:true}),
+"player"
+        ],
+
+        "1": () => [
+        sprite("exit"),
+        area(),
+	pos(0,0),
+	scale(1),
+offscreen({hide:true}),
+"exit1"
+        ],
+
+}
+}
+
+mapID2 = 0
+
+const levelname = add([
+text("level 1",{font:"happy"}),
+scale(1.5),
+pos(40,500),
+fixed()
+])
+
+const cleared = add([
+text("not cleared",{font:"happy"}),
+scale(0.7),
+pos(70,550),
+fixed()
+])
+
+add([
+text("press up to enter a world",{font:"happy"}),
+scale(0.7),
+pos(0,0),
+fixed()
+])
+
+const map = addLevel(wrldmap[mapID2],mapconfig)
+
+setBackground(0,0,0)
+
+//player
+const player = map.get("player")[0]
+onKeyDown("right",()=>{
+player.move(speed,0)
+})
+
+onGamepadStick("left",(v)=>{
+player.move(v.x*speed,0)
+})
+
+onKeyDown("left",()=>{
+player.move(-speed,0)
+})
+
+onKeyDown("space",()=>{
+if(player.isGrounded()){
+if(gravityflipped = "false"){
+player.jump(580)
+}}})
+
+onGamepadButtonDown("south",()=>{
+if(player.isGrounded()){
+if(gravityflipped = "false"){
+player.jump(580)
+}}})
+
+player.onUpdate(()=>{
+setCamPos(lerp(getCamPos(), player.pos, 0.1))
+
+
+
+if(player.pos.y >= 3000){
+addKaboom(player.pos),
+player.pos=vec2(10,512),
+attempts+=1
+}
+
+
+
+
+const exit1 = map.get("exit1")[0]
+
+if(player.isColliding(exit1)){
+levelname.text="world 1"
+
+
+
+if(w1==="1"){
+cleared.text="CLEAR"
+}else{
+cleared.text="not clear..."
+}
+}else{
+levelname.text=""
+cleared.text=""
+}
+
+})
+
+if(exitfrom==="1"){
+player.pos=vec2(576,512)
+}
+
+onCollide("player","exit1",()=>{
+levelname.text="world"
+cleared.text=""
+})
+
+
+
+
+onKeyPress("escape",()=>{
+localStorage.setItem("webformerlv", mapID);
+go("main menu")
+})
+
+onKeyPress("up",()=>{
+onCollide("player","exit1",()=>{
+mapID=1
+go("game")
+})})
 
 })
 
