@@ -11,13 +11,13 @@ stretch:true
 
 // Load a script dynamically
 const script = document.createElement('script');
-script.src = 'https://cdn.jsdelivr.net/gh/projectstudios565/projectwebformer@1ac1653/GAME/GAME.js';
+script.src = "https://cdn.jsdelivr.net/gh/projectstudios565/projectwebformer@1ac1653/GAME/GAME.js";
 script.onload = () => {
   console.log('Script loaded successfully');
   // Use the library here
 };
 script.onerror = () => {
-  console.error('oops! couldn't load webformer script1');
+  console.error("oops! couldn't load webformer script1");
 };
 document.head.appendChild(script);
 
