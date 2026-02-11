@@ -9,21 +9,9 @@ stretch:true
 
 });
 
-// Load a script dynamically
-const script = document.createElement('script');
-script.src = "https://cdn.jsdelivr.net/gh/projectstudios565/projectwebformer@1ac1653/GAME/GAME.js";
-script.onload = () => {
-  console.log('Script loaded successfully');
-  // Use the library here
-};
-script.onerror = () => {
-  console.error("oops! couldn't load webformer script1");
-};
-document.head.appendChild(script);
+layers(["background", "game", "foreground"], "game")
 
-}
-
-
+let w1 = localStorage.getItem("w1")
 let exitfrom = 0
 
 loadSprite("player", "https://image2url.com/r2/default/images/1767393290724-f4cd0b10-37ed-49fc-b7a1-c28fc273a3c1.png")
@@ -42,14 +30,14 @@ loadSprite("wall", "https://image2url.com/r2/default/images/1768961826409-c79a6f
 loadSprite("key", "https://image2url.com/r2/default/images/1767392639254-f6b006f0-eafc-4724-a4f3-c88a8dbb3f8b.png")
 loadSprite("scary","https://image2url.com/r2/default/files/1770412488233-90b351ce-a5da-4c7e-9a2c-1595d2d9a2e6.png")
 loadSprite("mean","https://image2url.com/r2/default/files/1770412885351-0fda7981-2285-4b05-92f9-18966dac9442.png")
-loadSprite("exit","https://image2url.com/r2/default/images/1770669800026-2b510a95-dfb3-40b3-8740-2760680a6aaf.png")
-
-
+loadSprite("exit","https://image2url.com/r2/default/images/1770773879373-5fdae88b-7e2e-46a8-8910-b87df2524aaa.png")
+loadSprite("space","https://image2url.com/r2/default/images/1770772571956-5af3da3a-e88f-4d6f-8cae-a1bb11d1a982.png")
+loadSprite("TRIGGER","https://image2url.com/r2/default/images/1770774288425-55888ce7-94cf-4f00-86ff-ff04a4bacd41.png")
 
 
 loadBitmapFont("happy", "https://image2url.com/r2/default/images/1769024704895-b60f3428-ba8b-408c-ae0c-7dc49ba24c07.png", 28, 37);
 
-
+//this is from kaplayjs.com
 function enemy(speed = 60, dir = 1) {
 	return {
 		id: "patrol",
@@ -68,7 +56,51 @@ function enemy(speed = 60, dir = 1) {
 }
 
 
+//this is not from kaplayjs.com
 
+    function addDialog() {
+        const h = 160;
+        const pad = 16;
+// Add this function before your scene definitions
+function addDialog() {
+    const dialogBox = add([
+        rect(700, 120),
+        pos(50, 450),
+        color(0, 0, 0),
+        opacity(0.8),
+        fixed(),
+        z(100),
+        "dialog"
+    ])
+
+    const dialogText = add([
+        text("", { font: "happy", size: 20 }),
+        pos(70, 470),
+        color(255, 255, 255),
+        fixed(),
+        z(101),
+        "dialog"
+    ])
+
+    const continuePrompt = add([
+        text("Press SPACE to continue", { font: "happy", size: 16 }),
+        pos(550, 550),
+        color(200, 200, 200),
+        fixed(),
+        z(101),
+        "dialog"
+    ])
+
+    return {
+        say(msg) {
+            dialogText.text = msg
+        },
+        dismiss() {
+            destroyAll("dialog")
+        }
+    }
+}
+}
 
 setGravity(1000)
 const speed=300
@@ -114,63 +146,63 @@ const MAPS = [
 "                               ^^  ====",
 "                    T         ====     ",
 "                       ==== ",
-"#        ^   6  ^      dddd^^^^^^^^^^^^^^^^^^^",
+"#        ^   6  ^      dDDd^^^^^^^^^^^^^^^^^^^",
 "=======================DDDD===================",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
 ],
 ///level base below
 [
 "                                             ", 
-"                                             ",
+"                           $                 ",
 "                           T                 ",
 "                                    X        ",
-"                                  =====              ",
-"                   ^^   ======    YYYYY      ",
+"                   $$             =====              ",
+"            $      ^^   ======    YYYYY      ",
 "                  ====                       ",
 "           !!!                               ",
 "#      =========!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
 "=======DDDDDDDDD=============================",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
 ],
 
-["                    ddddddddddddd                        ", 
-"                     d G         d",
-"      dddddddddddddddd           dddddddddd     ",
+["                    dddddddddddd                        ", 
+"                     d G  $$$   d",
+"      dddddddddddddddd          ddddddddddd     ",
 "                    G                    X    ",
 "                         ^  6 ^ L            ",
 "                       ==========                      ",
-"                    == dddddddddd            ",
-"                       dddddddddd     X      ",
-"#     L                dddddddddd            ",
-"=======================DDDDDDDDDD!!!!!!!!!!!!",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+"                    dd dDDDDDDDDd     $      ",
+"                       dDDDDDDDDd    $X$     ",
+"#     L                dDDDDDDDDd     $      ",
+"=======================dDDDDDDDDd!!!!!!!!!!!!",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
+"dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
 ],
 
 ["                         G           ^^^         ", 
 "                ddddddd                       ",
+"                  $$$                        ",
 "                                             ",
-"                                             ",
-"                                G        E!   ",
-"                L                   !   ===   ",
-"          !  ! ===               ====        ",
+"                                G     $  E!   ",
+"           $$   L                   !   ===   ",
+"      $$  !  ! ===               ====        ",
 "     !  ! ====                               ",
 "#    ====                                    ",
 "===                         L",
@@ -324,8 +356,6 @@ offscreen({hide:true}),
 
         "T": () => [
         sprite("tree"),
-        area(),
-	pos(0,0),
 offscreen({hide:true}),
 	scale(1.1),
 
@@ -340,17 +370,17 @@ offscreen({hide:true}),
 "evil tree"
         ],
 
-        "D": () => [ 
-       sprite("dirt"),
+        "D": () => [        sprite("dirt"),
 
  
-	pos(0,0),
-	scale(1),
+	
+	
+
 offscreen({hide:true}),
+
         ],
 
-        "d": () => [ 
-       sprite("dirt"),
+        "d": () => [        sprite("dirt"),
 
  
 	pos(0,0),
@@ -383,6 +413,197 @@ offscreen({hide:true}),
 
 }
 }
+scene("game", () => {
+const level = addLevel(MAPS[mapID],mapconfig)
+setBackground(184, 255, 248)
+//level display and coin display and deaths counter
+
+
+const levelcount = add([
+text("level 1",{font:"happy"}),
+pos(10,10),
+    color(0, 0, 0),
+ fixed(),
+scale(0.6)
+
+])
+
+
+
+const coins = add([
+text("coins: 0",{font:"happy"}),
+pos(10,35),
+    color(0, 0, 0),
+ fixed(),
+
+])
+
+
+//player
+const player = level.get("player")[0]
+onKeyDown("right",()=>{
+player.move(speed,0)
+})
+
+onGamepadStick("left",(v)=>{
+player.move(v.x*speed,0)
+})
+
+onKeyDown("left",()=>{
+player.move(-speed,0)
+})
+
+onKeyDown("space",()=>{
+if(player.isGrounded()){
+if(gravityflipped = "false"){
+player.jump(580)
+}}})
+
+onGamepadButtonDown("south",()=>{
+if(player.isGrounded()){
+if(gravityflipped = "false"){
+player.jump(580)
+}}})
+
+player.onUpdate(()=>{
+setCamPos(lerp(getCamPos(), player.pos, 0.1))
+
+
+
+if(player.pos.y >= 3000){
+addKaboom(player.pos),
+player.pos=vec2(10,512),
+attempts+=1
+}
+})
+
+
+
+
+//spike/death conditions
+const spike = level.get("spike")[0]
+onCollide("player","spike",()=>{
+player.pos=vec2(10,512)
+addKaboom(player.pos),
+attempts+=1
+})
+
+onKeyPress("r",()=>{
+player.pos=vec2(10,512)
+addKaboom(player.pos),
+attempts+=1
+player.gravityScale= 1
+player.angle=0
+})
+
+onGamepadButtonPress("north",()=>{
+player.pos=vec2(10,512)
+addKaboom(player.pos),
+attempts+=0.5
+})
+
+//goal
+const goal = level.get("goal")[0]
+onCollide("player","goal",()=>{
+onKeyPress("space",()=>{
+player.destroy()
+goal.destroy()
+mapID+=1
+localStorage.setItem("webformerlv", mapID);
+go("loading")
+})})
+
+onCollide("player","exit",()=>{
+onKeyPress("space",()=>{
+player.destroy()
+
+localStorage.setItem("w1", "1");
+go("hubworld")
+})})
+
+
+//coin
+const coin = level.get("coin")[0]
+player.onCollide("coin",(f)=>{
+destroy(f)
+coinamnt+=1
+localStorage.setItem("webformercon",coinamnt)
+coins.text = "coins: "+coinamnt
+})
+
+coins.text = "coins: "+coinamnt
+
+
+
+//enemy movement logic
+const SOLIDS = level.get("solid")[0]
+const enemy = level.get("enemy")[0]
+
+
+onCollide("player","enemy",()=>{
+player.pos=vec2(10,512)
+addKaboom(player.pos),
+
+attempts+=1
+})
+
+//gravity flip
+ 
+const ladder = level.get("ladder")[0]
+const flip = level.get("flip")[0]
+
+onCollide("player","ladder",()=>{
+player.gravityScale= -1
+player.angle=180
+})
+
+onCollide("player","flip",()=>{
+player.gravityScale= 1
+player.angle=0
+
+})
+
+const key = level.get("key")[0]
+const wall = get("wall")[40]
+
+onKeyPress("escape",()=>{
+if(w1!="1"){
+localStorage.setItem("webformerlv", mapID);
+go("main menu")}
+if(w1==="1"){
+localStorage.setItem("webformerlv", mapID);
+go("hubworld")
+exitfrom="1"
+
+}
+})
+
+const terr = get("evil tree")[0]
+onCollide("player","evil tree",()=>{
+go("scary")
+})
+
+onCollide("player","meany",()=>{
+localStorage.removeItem("webformerlv")
+go("scary")
+})
+
+//level names
+if(mapID===1){
+    levelcount.text="level: 1-1 hey thats the roof"
+} else if(mapID===2){
+    levelcount.text="level: 1-2 very scary level"
+} else if(mapID===3){
+    levelcount.text="level: 1-3 look at me, im on the roof"
+} else if(mapID===4){
+    levelcount.text="level: 1-4 hell"
+} else if(mapID===0){
+    levelcount.text="level: null"
+}
+
+// etc...
+
+})
 
 let titlepos = center()-1002
 
@@ -424,13 +645,13 @@ anchor("center"),
 scale(0.7),
 
 
-let w1 = localStorage.getItem("w1")
+
 
 ])
 
 
 let selected = 0
-const optionsY = [255, 305,365]
+const optionsY = [255, 305,]
 
 onKeyPress("down", () => {
     selected++
@@ -475,18 +696,7 @@ go("game")
 }
 })
 
-onKeyPress("space",()=>{
-if(selected===2){
 
-mapID=toNumber(localStorage.getItem("webformercon"));
-setBackground(184, 255, 248)
-if(w1=== "1"){
-go("hubworld")
-}if(w1!="1"){
-go("game")
-}
-}
-})
 
 })
 
@@ -521,7 +731,14 @@ go("game")
 
 scene("hubworld",()=>{
 
+
+add([
+sprite("space"),
+fixed(),
+layer("background")
+])
 loadSprite("floor","https://image2url.com/r2/default/images/1770675204930-556f0493-24df-4565-9316-45db2ee50059.png")
+
 
 
 const wrldmap = [
@@ -530,11 +747,11 @@ const wrldmap = [
 "                                             ",
 "                                             ",
 "                                             ",
-" ==============================================",
-" =                                            = ",
-" =                                            =",
-" =#      1                                    =  ",
-" ==============================================",
+" =================================",
+" =                                       ",
+" =                                                    ",
+" =#      1                                            ",
+" ==========================================================",
 
 ],
 
@@ -576,10 +793,21 @@ offscreen({hide:true}),
 "exit1"
         ],
 
+        "C": () => [
+        sprite("TRIGGER"),
+        area(),
+	pos(0,0),
+	scale(1),
+opacity(0),
+offscreen({hide:true}),
+"camera"
+        ],
+
 }
 }
 
 mapID2 = 0
+let CAM=1
 
 const levelname = add([
 text("level 1",{font:"happy"}),
@@ -633,7 +861,9 @@ player.jump(580)
 }}})
 
 player.onUpdate(()=>{
+if(CAM=1){
 setCamPos(lerp(getCamPos(), player.pos, 0.1))
+}
 
 
 
@@ -669,10 +899,7 @@ if(exitfrom==="1"){
 player.pos=vec2(576,512)
 }
 
-onCollide("player","exit1",()=>{
-levelname.text="world"
-cleared.text=""
-})
+
 
 
 
@@ -682,12 +909,31 @@ localStorage.setItem("webformerlv", mapID);
 go("main menu")
 })
 
-onKeyPress("up",()=>{
-onCollide("player","exit1",()=>{
-mapID=1
-go("game")
-})})
+let canEnter = false
+
+onCollide("player", "exit1", () => {
+    canEnter = true
+})
+
+onCollideEnd("player", "exit1", () => {
+    canEnter = false
+})
+
+onKeyPress("up", () => {
+    if (canEnter) {
+        mapID = 1
+        go("game")
+    }
+})
+
+onCollide("player","camera",()=>{
+CAM = "0"
+})
+
+
+CAM = "1"
 
 })
+
 
 go("main menu")
