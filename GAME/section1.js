@@ -1,4 +1,4 @@
-//a bunch of section 1 code is done. but there is some stuff i would like to add
+ //a bunch of section 1 code is done. but there is some stuff i would like to add
 
 kaplay({
   width:800,
