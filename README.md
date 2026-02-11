@@ -1,4 +1,4 @@
-go to : https://https://github.com/GA-Gamesdev/projectwebformer/releases for releases of webformer
+go to : https://github.com/GA-Gamesdev/projectwebformer/releases for releases of webformer
 
 
 
