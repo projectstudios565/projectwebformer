@@ -224,7 +224,7 @@ const MAPS = [
 "                                             ",
 "                                             ",
 "#                                            ",
-"----------------------------------------------",
+"-------------------------III-----------------",
 "dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
 "dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
 "dDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",
@@ -264,7 +264,7 @@ offscreen({hide:true}),
 
         "I": () => [
             sprite("ICE"),
-            area(),
+            area({ shape: new Rect(vec2(0,-1),50, 56,50)  }),
 	scale(1),
 	body({isStatic:true}),
 offscreen({hide:true}),
@@ -449,10 +449,14 @@ offscreen({hide:true}),
 
 }
 }
+
+let onice=false
+let icemove="right"
 scene("game", () => {
 const level = addLevel(MAPS[mapID],mapconfig)
 setBackground(184, 255, 248)
 //level display and coin display and deaths counter
+
 
 
 const levelcount = add([
@@ -477,18 +481,17 @@ pos(10,35),
 
 //player
 const player = level.get("player")[0]
+if(onice===false){
+
 onKeyDown("right",()=>{
 player.move(speed,0)
-})
-
-onGamepadStick("left",(v)=>{
-player.move(v.x*speed,0)
 })
 
 onKeyDown("left",()=>{
 player.move(-speed,0)
 })
 
+}
 onKeyDown("space",()=>{
 if(player.isGrounded()){
 if(gravityflipped = "false"){
@@ -621,9 +624,44 @@ go("scary")
 
 onCollide("player","meany",()=>{
 localStorage.removeItem("webformerlv")
+localStorage.removeItem("w1")
 go("scary")
 })
 
+//ice
+const ice = get("ICE")[0]
+onCollide("player","ICE",()=>{
+onice=true
+isKeyDown("left",()=>{
+icemove="left"
+})
+isKeyDown("right",()=>{
+icemove="right"
+})
+})
+
+onCollideEnd("player","ICE",()=>{
+onice=false
+})
+
+
+
+onUpdate("player",()=>{
+if(onice===true){
+
+if(icemove==="right"){
+player.move(speed,0)
+}
+
+
+}
+
+
+if(icemove==="left"){
+player.move(-speed,0)
+}
+
+})
 //level names
 if(mapID===1){
     levelcount.text="level: 1-1 hey thats the roof"
@@ -636,7 +674,7 @@ if(mapID===1){
 } else if(mapID===0){
     levelcount.text="level: null"
 } else if(mapID===5){
-    levelcount.text="level: 2-1 the place where is snowed"
+    levelcount.text="level: 2-1 the place where it snowed"
 }
 
 // etc...
