@@ -8,7 +8,10 @@ pos(10,20)
 ])
   add([
   sprite("acheve1"),
-      scale(0.7)
+      scale(0.7),
+          anchor("center"),
+      pos(20,30)
+    
   ])
 }else{
 add([
@@ -18,10 +21,13 @@ pos(10,20)
 ])
     add([
   sprite("acheve1"),
-    scale(0.7)
+    scale(0.7),
+      anchor("center"),
+      pos(20,30)
   ])
 }
 })
+
 
 
 
