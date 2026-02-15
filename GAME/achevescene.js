@@ -7,7 +7,8 @@ rect(760,90,{radius:40}),
 pos(10,20)
 ])
   add([
-  sprite("acheve1")
+  sprite("acheve1"),
+      scale(0.7)
   ])
 }else{
 add([
@@ -21,6 +22,7 @@ pos(10,20)
   ])
 }
 })
+
 
 
 
